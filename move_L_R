@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool canChange(string start, string target) {
+        int n = start.length();
+        int i = 0,j = 0;
+        //双指针
+        while(i < n && j < n){
+            //找到对应的非_字符。
+            while(i < n && start[i] == '_'){
+                i++;
+            }
+            while(j < n && target[j] == '_'){
+                j++;
+            }
+            //如果start[i]不等于target[j],就不匹配。如果等于，但是如果L对应i<j,R对应i>j，也不符合，返回flase。因为正常应该是target的L要比start靠左，target的R比start右。
+            if(i < n && j < n){
+                if (start[i] != target[j]) {
+                    return false;
+                }
+                char c = start[i];
+                if((c == 'L' && i < j) || (c == 'R' && i > j)){
+                    return false;
+                }
+                i++;
+                j++;
+            }
+        }
+        //有一个字符串已经到了末尾，如果其余字符出现了非_得字符，则该字符不能与任意字符匹配，返回false.
+        while(i < n){
+            if(start[i] != '_'){
+                return false;
+            }
+            i++;
+        }
+        while(j < n){
+            if(target[j] != '_'){
+                return false;
+            }
+            j++;
+        }
+        return true;
+    }
+};
